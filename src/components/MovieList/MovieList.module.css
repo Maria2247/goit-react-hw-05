@@ -1,0 +1,18 @@
+.movieList {
+  list-style: none;
+  padding-left: 20px;
+  font-size: 18px;
+}
+.movieItem {
+  color: #040404;
+  text-decoration: none;
+}
+
+.movieItem:active,
+.movieItem:hover {
+  color: orangered;
+}
+
+.movieItem:active {
+  text-decoration: underline;
+}

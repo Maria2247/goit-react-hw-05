@@ -1,59 +1,68 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Suspense, useEffect, useState, useRef } from "react";
+import {
+  useParams,
+  Outlet,
+  NavLink,
+  useLocation,
+  Link,
+} from "react-router-dom";
 import { fetchMovieDetails } from "../../helpers/movies-api";
+import css from "./MovieDetailsPage.module.css";
+import MovieInfo from "../../components/MovieInfo/MovieInfo";
+import MovieCast from "../../components/MovieCast/MovieCast";
+import MovieReviews from "../../components/MovieReviews/MovieReviews";
 
 export default function MovieDetailsPage() {
-    const [movieInfo, setMovieInfo] = useState({});
-    const { movieId } = useParams();
-    console.log("id", movieId);
-    useEffect(() => {
-        async function getDetails() {
-            try {
-                const details = await fetchMovieDetails(movieId);
-                // const movieDetails = details.movieId;
-                // console.log(movieDetails);
-                if (!details) {
-                    return <p>Oops, something went wrong. Try again!</p>;
-                }
-                setMovieInfo(details);
-            } catch (error) {
-                console.log(error);
-            }
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+  const location = useLocation();
+
+  const backLinkRef = useRef(location.state ?? "/movie");
+
+  useEffect(() => {
+    async function getDetails() {
+      try {
+        const details = await fetchMovieDetails(movieId);
+
+        if (!details) {
+          return <p>Oops, something went wrong. Try again!</p>;
         }
-        getDetails();
-    }, [movieId]);
 
-    const imageURL = `https://image.tmdb.org/t/p/w500${movieInfo.poster_path}`;
-
-    const { original_title, release_date, vote_average, overview, genres } = movieInfo;
-
-    const releaseYear = new Date(release_date).getFullYear();
-
-    return (
-        <div>
-            <button>
-                <Link to="/">Go back</Link>
-            </button>
-            <div>
-                <img src={imageURL} alt="Movie Poster" />
-                <div>
-                    <h2>
-                        {original_title} ({releaseYear})
-                    </h2>
-                    <p>User Score {vote_average}</p>
-                    <h3>Overview</h3>
-                    <p>{overview}</p>
-                    <h4>Genres</h4>
-                    <ul>{genres && genres.map((genre) => <li key={genre.id}>{genre.name}</li>)}</ul>
-                </div>
-            </div>
-            <div>
-                <p>Additional information</p>
-                <ul>
-                    <li>Movie Cast</li>
-                    <li>Movie Review</li>
-                </ul>
-            </div>
-        </div>
-    );
+        setMovie(details);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getDetails();
+  }, [movieId]);
+  return (
+    <div>
+      <Link to={backLinkRef.current} className={css.goBack}>
+        &#8610; Go back
+      </Link>
+      {movie && <MovieInfo movieInfo={movie} />}
+      <div className={css.additionalInfo}>
+        <h3>Additional information</h3>
+        <ul className={css.infoList}>
+          <li className={css.infoItem}>
+            <NavLink to="cast" element={<MovieCast />} className={css.infoLink}>
+              &#10003; Movie Cast
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="reviews"
+              element={<MovieReviews />}
+              className={css.infoLink}
+            >
+              &#10003; Movie Reviews
+            </NavLink>
+          </li>
+        </ul>
+        <Suspense fallback={<div>Loading child route</div>}>
+          <Outlet />
+        </Suspense>
+      </div>
+    </div>
+  );
 }

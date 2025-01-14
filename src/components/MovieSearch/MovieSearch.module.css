@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  gap: 10px;
+}
+
+.input {
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.input:focus {
+  outline: none;
+  border-color: orangered;
+}
+.btn {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  color: white;
+  background-color: navy;
+  border: none;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: orangered;
+}

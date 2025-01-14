@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  gap: 20px;
+  margin-left: 15px;
+}
+
+.poster {
+  width: 250px;
+}

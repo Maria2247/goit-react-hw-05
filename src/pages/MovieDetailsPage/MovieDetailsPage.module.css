@@ -1,0 +1,30 @@
+.goBack {
+  display: inline-block;
+  padding: 8px;
+  margin: 4px;
+  font-size: 18px;
+  color: navy;
+  /* border: 1px solid lightslategray; */
+}
+
+.goBack:hover,
+.goBack:active {
+  color: orangered;
+}
+
+.additionalInfo {
+  margin-left: 12px;
+}
+
+.infoList {
+  list-style: none;
+  border-bottom: 1px solid grey;
+  padding-bottom: 20px;
+}
+.infoLink {
+  color: navy;
+}
+.infoLink:active,
+.infoLink:hover {
+  color: orangered;
+}
