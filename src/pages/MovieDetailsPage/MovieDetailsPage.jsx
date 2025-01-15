@@ -9,8 +9,6 @@ import {
 import { fetchMovieDetails } from "../../helpers/movies-api";
 import css from "./MovieDetailsPage.module.css";
 import MovieInfo from "../../components/MovieInfo/MovieInfo";
-import MovieCast from "../../components/MovieCast/MovieCast";
-import MovieReviews from "../../components/MovieReviews/MovieReviews";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -45,16 +43,12 @@ export default function MovieDetailsPage() {
         <h3>Additional information</h3>
         <ul className={css.infoList}>
           <li className={css.infoItem}>
-            <NavLink to="cast" element={<MovieCast />} className={css.infoLink}>
+            <NavLink to="cast" className={css.infoLink}>
               &#10003; Movie Cast
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="reviews"
-              element={<MovieReviews />}
-              className={css.infoLink}
-            >
+            <NavLink to="reviews" className={css.infoLink}>
               &#10003; Movie Reviews
             </NavLink>
           </li>
